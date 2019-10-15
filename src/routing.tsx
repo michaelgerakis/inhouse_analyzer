@@ -8,7 +8,7 @@ import {
 import { Location } from "history";
 import React from "react";
 import Champions from "./components/Champions";
-import MatchHistory from "./components/MatchHistory";
+import { History } from "./components/History/index";
 import Overview from "./components/Overview";
 import Summoners from "./components/Summoners";
 import TeamGenerator from "./components/TeamGenerator";
@@ -37,7 +37,8 @@ interface RouteConfig {
   to: (location: Location) => Location;
   icon: JSX.Element;
   label: string;
-  RouteTo: React.JSXElementConstructor<{ data: null | {} }>;
+  // tslint:disable-next-line: no-any
+  RouteTo: React.JSXElementConstructor<{ data: null | any }>;
   value: Route;
 }
 
@@ -62,7 +63,7 @@ export const ROUTES: ForEachEnum<Route, RouteConfig> = {
     to: pathGenerator("/history"),
     icon: <ViewDay />,
     label: "History",
-    RouteTo: MatchHistory,
+    RouteTo: History,
     value: Route.HISTORY,
   },
   [Route.GENERATOR]: {
