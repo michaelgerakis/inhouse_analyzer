@@ -11,6 +11,9 @@ export interface HistoryProps {
 }
 
 export function History({ data }: HistoryProps) {
+  // tslint:disable-next-line: no-console
+  console.log(data);
+
   const matchCards = (data ? data.match_history : [])
     .slice(0, 20)
     .map((match, index) => <MatchCard key={index} match={match} />);
