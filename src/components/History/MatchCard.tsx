@@ -5,10 +5,13 @@ import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
+  Grid,
   Typography,
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import React from "react";
+
+// tslint:disable: jsx-no-multiline-js
 
 export interface MatchupEntry {
   assists: number;
@@ -93,21 +96,95 @@ export function MatchCard({ match }: MatchCardProps) {
 
   const mvp = maybeMvp!;
 
+  const blueTeam = [
+    match.matchups.TOP[0],
+    match.matchups.JUNGLE[0],
+    match.matchups.MIDDLE[0],
+    match.matchups.BOTTOM[0],
+    match.matchups.SUPPORT[0],
+  ];
+
+  const redTeam = [
+    match.matchups.TOP[1],
+    match.matchups.JUNGLE[1],
+    match.matchups.MIDDLE[1],
+    match.matchups.BOTTOM[1],
+    match.matchups.SUPPORT[1],
+  ];
+
   return (
     <ExpansionPanel>
       <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-        <Box textAlign="center">
+        <Box textAlign="center" marginRight="20px">
           <Typography variant="overline">{date}</Typography>
           <Divider />
           <Typography variant="caption">{duration}</Typography>
         </Box>
-        <Box>
-          <Typography variant="caption">{mvp.summoner}</Typography>
-          <Avatar src={"/images/champion_squares/" + mvp.champ + ".png"} />
-          <Typography variant="overline">
-            {mvp.kills + " / " + mvp.deaths + " / " + mvp.assists}
-          </Typography>
-        </Box>
+        <Grid container={true} spacing={2} alignItems="center">
+          <Grid item={true}>
+            <Avatar src={"/images/champion_squares/" + mvp.champ + ".png"} />
+          </Grid>
+          <Grid item={true}>
+            <Grid container={true} direction="column" alignItems="center">
+              <Grid item={true}>
+                <Typography variant="caption">{mvp.summoner}</Typography>
+              </Grid>
+              <Grid item={true}>
+                <Typography variant="overline">
+                  {mvp.kills + " / " + mvp.deaths + " / " + mvp.assists}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid container={true}>
+          <Grid item={true} xs={5}>
+            <Grid container={true} direction="column">
+              {blueTeam.map(({ summoner, champ }) => (
+                <Grid item={true} key={summoner}>
+                  <Grid container={true} spacing={1} alignItems="center">
+                    <Grid item={true}>
+                      <Avatar
+                        style={{ width: 16, height: 16 }}
+                        src={"/images/champion_squares/" + champ + ".png"}
+                      />
+                    </Grid>
+                    <Grid item={true}>
+                      <Typography variant="caption">{summoner}</Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+          <Grid item={true} xs={1}>
+            <Divider orientation="vertical" style={{ margin: "0 auto" }} />
+          </Grid>
+          <Grid item={true} xs={5}>
+            <Grid container={true} direction="column">
+              {redTeam.map(({ summoner, champ }) => (
+                <Grid item={true} key={summoner}>
+                  <Grid
+                    container={true}
+                    justify="flex-end"
+                    spacing={1}
+                    alignItems="center"
+                  >
+                    <Grid item={true}>
+                      <Typography variant="caption">{summoner}</Typography>
+                    </Grid>
+                    <Grid item={true}>
+                      <Avatar
+                        style={{ width: 16, height: 16 }}
+                        src={"/images/champion_squares/" + champ + ".png"}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+        </Grid>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>Hello, this is Patrick!</ExpansionPanelDetails>
     </ExpansionPanel>
